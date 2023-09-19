@@ -1,0 +1,17 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+$bgColor: #1C1C1E;
+$grey1: #272727;
+$grey2: #484848;
+$grey3: #BCBBBB;
+$lightGrey: #ECE9E9;
+$purple2: #6C27A7;
+$purple3: #9937EB;
+
+.application {
+  background-color: $bgColor;
+  height: 100vh;
+}
