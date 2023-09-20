@@ -1,18 +1,30 @@
 <template>
-  <div class="modal" v-if="show" @click="hideModal">
+  <div class="modal" v-if="isVisible">
     <div @click.stop class="modal__content">
       <slot></slot>
+      <my-styled-btn @click="emit('message', 1)">передать сообщение родителю</my-styled-btn>
     </div>
   </div>
 </template>
 
-<script>
-import toggleMixin from "@/mixins/toggleMixin";
+<script setup lang="ts">
+/*import toggleMixin from "@/mixins/toggleMixin";
 
 export default {
   name: 'my-modal',
   mixins: [toggleMixin]
+}*/
+import {defineEmits, defineExpose, ref} from 'vue'
+
+const isVisible = ref<boolean>(true)
+const open = () => {
+  isVisible.value = true
 }
+const close = () => {
+  isVisible.value = false
+}
+const emit = defineEmits<{(e:'message', id:number):void}>()
+defineExpose({ open, close })
 </script>
 
 <style scoped>

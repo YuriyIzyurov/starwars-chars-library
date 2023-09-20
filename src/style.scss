@@ -1,17 +1,79 @@
+:root {
+  --font-primary: Oxanium;
+  --font-secondary: sans-serif;
+  --text-base-size: 1em; //16px
+  --bgColor: #1C1C1E;
+  --grey1: #272727;
+  --grey2: #484848;
+  --grey3: #BCBBBB;
+  --lightGrey: #ECE9E9;
+  --purple2: #6C27A7;
+  --purple3: #9937EB;
+  --stroke-color-light: #484848;
+  --stroke-color-dark: #2A2A2D;
+
+  --text-extra-small: calc(var(--text-base-size)*0.5);
+  --text-small: calc(var(--text-base-size)*0.875);
+  --text-medium: calc(var(--text-base-size)*1.25);
+  --text-large: calc(var(--text-base-size)*1.5);
+  --text-extra-large: calc(var(--text-base-size)*2.25);
+  --letter-space-small: 1px;
+  --letter-space-medium: 2px;
+
+  --border-radius-big: 15px;
+  --border-radius-medium: 11px;
+  --border-radius-small: 6px;
+}
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-$bgColor: #1C1C1E;
-$grey1: #272727;
-$grey2: #484848;
-$grey3: #BCBBBB;
-$lightGrey: #ECE9E9;
-$purple2: #6C27A7;
-$purple3: #9937EB;
+@font-face {
+  font-family: 'Oxanium';
+  src:
+     local('Oxanium'), url(./assets/fonts/Oxanium-Medium.ttf) format('truetype'), //500
+     url(./assets/fonts/Oxanium-SemiBold.ttf) format('truetype'), //600
+     url(./assets/fonts/Oxanium-Bold.ttf) format('truetype'), //700
+     url(./assets/fonts/Oxanium-ExtraBold.ttf) format('truetype') //800
+}
+
+body {
+  font-size: var(--text-base-size);
+  font-family: var(--font-primary), var(--font-secondary);
+  letter-spacing: var(--letter-space-medium);
+  color: var(--lightGrey);
+  background-color: var(--bgColor);
+}
+ul {
+  list-style: none;
+  font-weight: 600;
+  font-size: var(--text-medium);
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.border {
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--stroke-color-light);
+}
+.border-small {
+  border-radius: var(--border-radius-small);
+}
+.border-medium {
+  border-radius: var(--border-radius-medium);
+}
+.border-big {
+  border-radius: var(--border-radius-big);
+}
 
 .application {
-  background-color: $bgColor;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+

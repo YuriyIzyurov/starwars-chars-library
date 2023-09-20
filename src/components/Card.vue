@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="card border border-big">
     <div>{{ card.name }}</div>
+    <img :src="`${card.image}`" alt="Card Image">
     <div>{{ card.birth_year }}</div>
     <div>{{ card.height }}</div>
     <div>{{ card.mass }}</div>
@@ -12,18 +13,24 @@
   </div>
 </template>
 
-<script>
 
-export default {
-  props: {
-    card: {
-      type: Object,
-      required: true
-    }
+<script setup lang="ts">
+import {defineComponent, defineProps, PropType} from "vue";
+import {CardType} from "@/types";
+
+
+defineProps({
+  card: {
+    type: Object as PropType<CardType>,
+    required: true
   }
-}
+})
 </script>
 
 <style scoped>
-
+  .card {
+    min-width: 784px;
+    min-height: 395px;
+    background-color: var(--grey1);
+  }
 </style>

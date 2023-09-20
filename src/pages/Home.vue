@@ -8,7 +8,7 @@
   </my-modal>
   <CardList :cards="sortedAndSearchedCards" v-if="!isCardsLoading"/>
   <div v-else>Карточки загружаются...</div>
-  <Input :model-value="searchQuery" @update:model-value="setSearchQuery"/>
+  <Input :model-value="searchQuery" @update:model-value="setSearchQuery" />
   <div>
     <div v-for="pageNumber in totalPages" :key="pageNumber" :class="{ 'current-page': page===pageNumber }" @click="setPage(pageNumber)">
       {{ pageNumber }}
@@ -16,16 +16,20 @@
   </div>
 </template>
 
-<script>
-import Input from "@/components/InputWrapper.vue"
+<script lang="ts">
+import Input from "@/components/UI/BaseInput.vue"
 import CardList from "@/components/CardList.vue"
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+
+interface HomeState {
+  modalVisible: boolean
+}
 
 export default {
   components: {
     CardList, Input
   },
-  data() {
+  data():HomeState {
     return {
       modalVisible: false,
     }
@@ -41,10 +45,6 @@ export default {
     showModal() {
       this.modalVisible = true
     },
-
-    changePage(pageNumber) {
-      this.page = pageNumber
-    }
   },
   mounted() {
     this.fetchCards()

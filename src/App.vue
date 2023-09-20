@@ -6,23 +6,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
+import {defineComponent} from "vue";
 
-export default {
-  components: {
-    Header, Footer
-  },
-  data() {
-    return {
-
-    }
-  },
-  methods: {
-
-  }
-}
+export default defineComponent({
+  components: { Header, Footer }
+})
 </script>
 
 <style lang="scss">

@@ -12,5 +12,6 @@ export default {
     },
     mounted() {
 
-    }
+    },
+    emits: ['update:show']
 }

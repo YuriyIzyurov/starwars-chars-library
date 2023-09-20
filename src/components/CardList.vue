@@ -7,18 +7,20 @@
   </h3>
 </template>
 
-<script>
+<script lang="ts">
 import Card from "@/components/Card.vue"
+import { defineComponent, PropType } from "vue";
+import {CardType} from "@/types";
 
-export default {
+export default defineComponent({
   components: { Card },
   props: {
     cards: {
-      type: Array,
+      type: Array as PropType<CardType[]>,
       required: true
     }
   },
-}
+})
 </script>
 
 <style scoped>
