@@ -3,10 +3,10 @@
     <SVG name="logo"/>
     <nav>
       <ul class="nav-list">
-        <li class="border border-big"><router-link to="/">Home</router-link></li>
-        <li class="border border-big"><router-link to="/news">News</router-link></li>
-        <li class="border border-big"><router-link to="/gallery">Gallery</router-link></li>
-        <li class="border border-big"><router-link to="/forum">Forum</router-link></li>
+        <li class="border border-big"><router-link to="/"><h2>Home</h2></router-link></li>
+        <li class="border border-big"><router-link to="/news"><h2>News</h2></router-link></li>
+        <li class="border border-big"><router-link to="/gallery"><h2>Gallery</h2></router-link></li>
+        <li class="border border-big"><router-link to="/forum"><h2>Forum</h2></router-link></li>
         <li class="border border-big">
           <SVG name="favorites"/>
         </li>
@@ -21,9 +21,10 @@ import SVG from "@/components/UI/SVG.vue";
 
 <style scoped lang="scss">
   .header-wrapper {
-    max-width: 1600px;
+    width: 100%;
     padding: 2px;
     display: flex;
+    margin-bottom: 36px;
     nav {
       margin-left: auto;
     }

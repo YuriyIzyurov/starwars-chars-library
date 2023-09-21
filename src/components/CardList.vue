@@ -1,5 +1,5 @@
 <template>
-  <div v-if="cards.length > 0">
+  <div class="cards-wrapper" v-if="cards.length > 0">
     <Card class="list" v-for="card in cards" :card="card" :key="card.id"/>
   </div>
   <h3 v-else>
@@ -10,13 +10,13 @@
 <script lang="ts">
 import Card from "@/components/Card.vue"
 import { defineComponent, PropType } from "vue";
-import {CardType} from "@/types";
+import {CardType, DummyCard} from "@/types";
 
 export default defineComponent({
   components: { Card },
   props: {
     cards: {
-      type: Array as PropType<CardType[]>,
+      type: Array as PropType<(CardType|DummyCard)[]>,
       required: true
     }
   },
@@ -24,5 +24,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+  .cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 84px 32px;
+  }
 </style>

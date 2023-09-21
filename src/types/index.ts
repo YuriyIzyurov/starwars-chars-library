@@ -10,3 +10,9 @@ export interface CardType {
     films: any[]
     image: string
 }
+export interface DummyCard {
+    name: null
+    image: null
+}
+export type DirectionType = 'prev' | 'next'
+export type InputType = 'search' | 'email'

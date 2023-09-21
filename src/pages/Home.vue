@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import Input from "@/components/UI/BaseInput.vue"
+import Input from "@/components/UI/StyledInput.vue"
 import CardList from "@/components/CardList.vue"
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 

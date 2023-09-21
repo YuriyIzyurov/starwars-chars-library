@@ -1,7 +1,7 @@
 <template>
   <div class="application">
     <Header/>
-    <router-view></router-view>
+    <router-view/>
     <Footer/>
   </div>
 </template>
@@ -18,4 +18,22 @@ export default defineComponent({
 
 <style lang="scss">
   @import "style";
+
+  .application {
+    max-width: 1600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0 42px;
+    margin: 0 auto;
+  }
+  .element-wrapper {
+    width: var(--base-unit);
+    height: var(--base-unit);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 0;
+    padding-top: 1px;
+  }
 </style>

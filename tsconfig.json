@@ -27,6 +27,13 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "../../WebStorm 2022.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "../../WebStorm 2022.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
