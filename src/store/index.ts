@@ -71,7 +71,7 @@ export const useCardsStore = defineStore('CharCard', () => {
         try {
             for(let i=0; i<API_PAGES; i++) {
                 console.log(`start fetch page ${i+1}`)
-                const response = await axios.get('https://swapi.dev/api/people', {
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}`, {
                     params: {
                         page: i + 1,
                     }
