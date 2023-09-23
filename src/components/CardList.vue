@@ -1,10 +1,7 @@
 <template>
-  <div class="cards-wrapper" v-if="cards.length > 0">
+  <div class="cards-wrapper">
     <Card class="list" v-for="card in cards" :card="card" :key="card.id"/>
   </div>
-  <h3 v-else>
-    Нет карточек
-  </h3>
 </template>
 
 <script lang="ts">
@@ -23,11 +20,3 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-  .cards-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 84px 32px;
-  }
-</style>

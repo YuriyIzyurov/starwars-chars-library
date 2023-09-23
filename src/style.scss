@@ -27,6 +27,81 @@
   --base-unit: 24px;
   --base-unit2: 40px;
   --input-width: 320px;
+
+  --base-btn-width: 200px;
+  --base-btn-height: 48px;
+  --small-btn-width: 170px;
+  --small-btn-height: 42px;
+
+
+  //======RESPONSIVE CARDS SIZES=======
+
+  --card-width-1920: 784px;
+  --card-height-1920: 395px;
+  --card-width-expanded-1920: 1280px;
+  --card-height-expanded-1920: 672px;
+
+  --card-width-1280: 510px;
+  --card-height-1280: 536px;
+  --card-width-expanded-1280: 920px;
+  --card-height-expanded-1280: 546px;
+
+  --card-width-1024: 382px;
+  --card-height-1024: 464px;
+  --card-width-expanded-1024: 604px;
+  --card-height-expanded-1024: 740px;
+
+  --card-width-768: 342px;
+  --card-height-768: 390px;
+  --card-width-expanded-768: 564px;
+  --card-height-expanded-768: 657px;
+
+  --card-width-320: 288px;
+  --card-height-320: 359px;
+  --card-width-expanded-320: 240px;
+  --card-height-expanded-320: 437px;
+
+  //======RESPONSIVE IMAGE SIZES=======
+
+  --image-width-1920: 300px;
+  --image-height-1920: 400px;
+  --image-width-expanded-1920: 508px;
+  --image-height-expanded-1920: 676px;
+
+  --image-width-1280: 300px;
+  --image-height-1280: 400px;
+  --image-width-expanded-1280: 300px;
+  --image-height-expanded-1280: 400px;
+
+  --image-width-1024: 244px;
+  --image-height-1024: 328px;
+  --image-width-expanded-1024: 220px;
+  --image-height-expanded-1024: 280px;
+
+  --image-width-768: 200px;
+  --image-height-768: 266px;
+  --image-width-expanded-768: 244px;
+  --image-height-expanded-768: 300px;
+
+  --image-width-320: 170px;
+  --image-height-320: 227px;
+  --image-width-expanded-320: 128px;
+  --image-height-expanded-320: 172px;
+
+  //======ACTUAL SIZES=================
+
+  --card-width: var(--card-width-1920);
+  --card-height: var(--card-height-1920);
+  --image-width: var(--image-width-1920);
+  --image-height: var(--image-height-1920);
+
+  --button-width: var(--base-btn-width);
+  --button-height: var(--base-btn-height);
+
+  --scaleX: calc(var(--card-width-expanded-1920)/var(--card-width));
+  --scaleY: calc(var(--card-height-expanded-1920)/var(--card-height));
+  --scale-modifier: 1.6;
+
 }
 *{
   margin: 0;
@@ -69,6 +144,7 @@ button, input {
   cursor: pointer;
   letter-spacing: var(--letter-space-small);
 }
+
 h1 {
   font-weight: 800;
   font-size: var(--text-extra-large);
@@ -82,6 +158,11 @@ h3 {
   font-weight: 600;
   font-size: var(--text-medium);
 }
+//специальный шрифт, который будет скалироваться по модификатору
+h4 {
+  font-weight: 500;
+  font-size: calc(var(--base-unit) * 0.5);
+}
 h5, h6 {
   display: inline;
 }
@@ -93,6 +174,7 @@ h6 {
   font-weight: 300;
   font-size: var(--text-base-size);
 }
+
 .border {
   border-width: 1px;
   border-style: solid;
@@ -116,6 +198,9 @@ h6 {
 .bg-secondary {
   background-color: var(--grey1);
 }
+.bg-grey-primary {
+  background-color: var(--grey2);
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -125,6 +210,15 @@ h6 {
 //вместо цвета --grey2, мелочь, но не форсирует reflow
 .opacity {
   opacity: 0.4;
+}
+
+.application {
+  max-width: calc(1600px + var(--base-unit));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px calc(var(--base-unit) * 0.5) 42px;
+  margin: 0 auto;
 }
 
 
@@ -139,7 +233,144 @@ h6 {
     background-color: #ddd;
   }
 }
+@keyframes shiftDown {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(var(--base-unit2));
+    opacity: 1;
+  }
+}
+@keyframes shiftUp {
+  from {
+    transform: translateY(var(--base-unit2));
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
 
+@media (min-width: 1650px) {
+  :root {
+    --card-width: var(--card-width-1920);
+    --card-height: var(--card-height-1920);
+    --image-width: var(--image-width-1920);
+    --image-height: var(--image-height-1920);
+  }
+  h1 {
+    font-size: var(--text-extra-large);
+  }
+  h2 {
+    font-size: var(--text-large);
+  }
+  h3 {
+    font-size: var(--text-medium);
+  }
+  h4 {
+    font-size: calc(var(--base-unit) * 0.5);
+  }
+  h5 {
+    font-size: var(--text-base-size);
+  }
+  h6 {
+    font-size: var(--text-base-size);
+  }
+  .application {
+    padding: 16px calc(var(--base-unit) * 0.5) 42px;
+  }
+}
+
+@media (max-width: 1649px) {
+  :root {
+    --card-width: var(--card-width-1280);
+    --card-height: var(--card-height-1280);
+    --image-width: var(--image-width-1280);
+    --image-height: var(--image-height-1280);
+  }
+  h3 {
+    font-size: var(--text-base-size);
+  }
+  h4 {
+    font-size: calc(var(--base-unit) * 0.4);
+  }
+  .application {
+    padding: 16px 120px 16px;
+  }
+}
+@media (max-width: 1280px) {
+  :root {
+    --card-width: var(--card-width-1024);
+    --card-height: var(--card-height-1024);
+    --image-width: var(--image-width-1024);
+    --image-height: var(--image-height-1024);
+  }
+}
+@media (max-width: 1024px) {
+  :root {
+    --card-width: var(--card-width-768);
+    --card-height: var(--card-height-768);
+    --image-width: var(--image-width-768);
+    --image-height: var(--image-height-768);
+  }
+  h1 {
+    font-weight: 700;
+    font-size: var(--text-large);
+  }
+
+  h5 {
+    font-weight: 300;
+    font-size: var(--text-small);
+  }
+  h6 {
+    font-size: var(--text-small);
+  }
+}
+@media (max-width: 768px) {
+  :root {
+    --card-width: var(--card-width-320);
+    --card-height: var(--card-height-320);
+    --image-width: var(--image-width-320);
+    --image-height: var(--image-height-320);
+    --button-width: var(--small-btn-width);
+    --button-height: var(--small-btn-height);
+  }
+  h1 {
+    font-weight: 600;
+    font-size: var(--text-medium);
+  }
+  h2 {
+    font-weight: 500;
+    font-size: var(--text-base-size);
+  }
+  h4 {
+    font-size: calc(var(--base-unit) * 0.3);
+  }
+  h3 {
+    font-weight: 500;
+  }
+  .application {
+    padding: 16px;
+  }
+}
+
+/*
+@media (max-width: 1649px) {
+  //стили для макета 1280
+}
+@media (max-width: 1280px) {
+  //стили для макета 1024
+}
+@media (max-width: 1024px) {
+  //стили для макета 768
+}
+@media (max-width: 768px) {
+  //стили для макета 320
+}
+*/
 
 
 

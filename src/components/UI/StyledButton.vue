@@ -1,18 +1,46 @@
 <template>
-  <button class="button border-big bg-purple-light">
-    <slot><h5>Learn more</h5></slot>
-  </button>
+  <component
+      :is="props.as"
+      :disabled="props.disabled"
+      :class="['button', 'border-big',
+      props.disabled ? 'bg-grey-primary' : 'bg-purple-light']">
+    <h5>
+      <slot/>
+    </h5>
+    <component class="icon" v-if="icon" :is="props.icon" name="favorites"/>
+  </component>
 </template>
 
-<script>
-export default {
-  name: "StyledButton"
-}
+<script setup>
+import {defineComponent} from "vue";
+
+const props = defineProps({
+  icon: [Object, Boolean],
+  disabled: Boolean,
+  as: {
+    type: [String, Object],
+    default: "button"
+  },
+})
+
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .button {
-    width: 200px;
-    height: 48px;
+    width: var(--button-width);
+    height: var(--button-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:not([disabled]):hover {
+      background-color: var(--purple2);
+    }
+    &:disabled {
+      cursor: default;
+    }
+  }
+  .icon {
+    margin-left: var(--base-unit);
   }
 </style>

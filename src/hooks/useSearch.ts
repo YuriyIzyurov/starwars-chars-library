@@ -6,7 +6,6 @@ export default function useSearch(cards) {
 
     /*const sortedCards = computed(() =>
         [...cards.value].sort((card1, card2) => card1['name']?.localeCompare(card2['name'])))*/
-    console.log(cards.value)
     const sortedAndSearchedCards = computed(() =>
         cards.value.filter(card => card.name.toLowerCase().includes(searchQuery.value.toLowerCase())))
 

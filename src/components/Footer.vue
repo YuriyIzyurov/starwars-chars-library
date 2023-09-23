@@ -45,10 +45,29 @@ import StyledInput from "@/components/UI/StyledInput.vue";
     //по макету 204 пикселя, но если значение ни на что не влияет, то лучше округлять. С красивыми цифрами легче работать
     min-height: 200px;
     margin-top: 80px;
-    padding: 24px 160px 24px 24px;
+    padding: var(--base-unit) 160px var(--base-unit) var(--base-unit);
   }
   .footer-content {
     display: flex;
-    gap: var(--base-unit2);
+    gap: calc(var(--base-unit2) * 3);
+
+    h3 {
+      margin-bottom: var(--base-unit);
+    }
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--base-unit) * (16 / 24));
+    }
+  }
+  .footer-subscribe {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: calc(var(--base-unit2) * 3);
+
+    h6 {
+      padding-bottom: calc(var(--base-unit) * (16 / 24));
+    }
   }
 </style>

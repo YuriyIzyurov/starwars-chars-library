@@ -19,14 +19,7 @@ export default defineComponent({
 <style lang="scss">
   @import "style";
 
-  .application {
-    max-width: 1600px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 16px 0 42px;
-    margin: 0 auto;
-  }
+
   .element-wrapper {
     width: var(--base-unit);
     height: var(--base-unit);
