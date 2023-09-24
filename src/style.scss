@@ -26,7 +26,10 @@
 
   --base-unit: 24px;
   --base-unit2: 40px;
-  --input-width: 320px;
+  --input-width-1920: 320px;
+  --input-height-1920: 40px;
+  --input-width-1024: 200px;
+  --input-height-1024: 36px;
 
   --base-btn-width: 200px;
   --base-btn-height: 48px;
@@ -88,18 +91,69 @@
   --image-width-expanded-320: 128px;
   --image-height-expanded-320: 172px;
 
-  //======ACTUAL SIZES=================
+  //======RESPONSIVE LOGO SIZES & COLORS=======
+
+  --logo-width-1920: 162px;
+  --logo-height-1920: 80px;
+
+  --logo-width-1280: 136px;
+  --logo-height-1280: 56px;
+
+  --logo-width-1024: 120px;
+  --logo-height-1024: 40px;
+
+  --logo-width-320: 96px;
+
+  --logo-purple: linear-gradient(to top, #6A25A4, #9736E9);
+
+  //=========RESPONSIVE HEADER BUTTONS=====
+
+  --header-btn-width-1920: 184px;
+  --header-btn-height-1920: 80px;
+
+  --header-btn-width-1280: 136px;
+  --header-btn-height-1280: 56px;
+
+  --header-btn-width-1024: 120px;
+  --header-btn-height-1024: 40px;
+
+  --header-btn2-width-1024: 88px;
+  --header-btn3-width-768: 152px;
+
+
+
+  //======ACTUAL PROPERTIES=================
 
   --card-width: var(--card-width-1920);
   --card-height: var(--card-height-1920);
+  --card-width-expanded: var(--card-width-expanded-1920);
+  --card-height-expanded: var(--card-height-expanded-1920);
+
   --image-width: var(--image-width-1920);
   --image-height: var(--image-height-1920);
+  --image-width-expanded: var(--image-width-expanded-1920);
+  --image-height-expanded: var(--image-height-expanded-1920);
 
   --button-width: var(--base-btn-width);
   --button-height: var(--base-btn-height);
+  --input-width: var(--input-width-1920);
+  --input-height: var(--input-height-1920);
 
-  --scaleX: calc(var(--card-width-expanded-1920)/var(--card-width));
-  --scaleY: calc(var(--card-height-expanded-1920)/var(--card-height));
+  --logo-top-width: var(--logo-width-1920);
+  --logo-top-height: var(--logo-height-1920);
+  --logo-bot-width: var(--logo-width-1920);
+  --logo-bot-height: var(--logo-height-1920);
+  --logo-bg-color: var(--logo-purple);
+
+  --header-btn-width: var(--header-btn-width-1920);
+  --header-btn-height: var(--header-btn-height-1920);
+  --header-btn2-width: var(--header-btn-width-1024);
+  --header-btn3-width: var(--header-btn3-width-768);
+
+  --scaleX-card: calc(var(--card-width-expanded)/var(--card-width));
+  --scaleY-card: calc(var(--card-height-expanded)/var(--card-height));
+  --scaleX-image: calc(var(--image-width-expanded)/var(--image-width));
+  --scaleY-image: calc(var(--image-height-expanded)/var(--image-height));
   --scale-modifier: 1.6;
 
 }
@@ -174,7 +228,25 @@ h6 {
   font-weight: 300;
   font-size: var(--text-base-size);
 }
+.logo {
+  border: 1px solid var(--stroke-color-dark);
+  border-radius: var(--border-radius-medium);
+  background: var(--logo-bg-color);
 
+  svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+.logo-header {
+  width: var(--logo-top-width);
+  height: var(--logo-top-height);
+}
+.logo-footer {
+  width: var(--logo-bot-width);
+  height: var(--logo-bot-height);
+}
 .border {
   border-width: 1px;
   border-style: solid;
@@ -258,8 +330,19 @@ h6 {
   :root {
     --card-width: var(--card-width-1920);
     --card-height: var(--card-height-1920);
+    --card-width-expanded: var(--card-width-expanded-1920);
+    --card-height-expanded: var(--card-height-expanded-1920);
     --image-width: var(--image-width-1920);
     --image-height: var(--image-height-1920);
+    --image-width-expanded: var(--image-width-expanded-1920);
+    --image-height-expanded: var(--image-height-expanded-1920);
+    --logo-top-width: var(--logo-width-1920);
+    --logo-top-height: var(--logo-height-1920);
+    --logo-bot-width: var(--logo-width-1920);
+    --logo-bot-height: var(--logo-height-1920);
+    --header-btn-width: var(--header-btn-width-1920);
+    --header-btn-height: var(--header-btn-height-1920);
+    --header-btn2-width: var(--header-btn-width-1024);
   }
   h1 {
     font-size: var(--text-extra-large);
@@ -288,8 +371,18 @@ h6 {
   :root {
     --card-width: var(--card-width-1280);
     --card-height: var(--card-height-1280);
+    --card-width-expanded: var(--card-width-expanded-1280);
+    --card-height-expanded: var(--card-height-expanded-1280);
     --image-width: var(--image-width-1280);
     --image-height: var(--image-height-1280);
+    --image-width-expanded: var(--image-width-expanded-1280);
+    --image-height-expanded: var(--image-height-expanded-1280);
+    --logo-top-width: var(--logo-width-1280);
+    --logo-top-height: var(--logo-height-1280);
+    --logo-bot-width: var(--logo-width-1280);
+    --logo-bot-height: var(--logo-height-1280);
+    --header-btn-width: var(--header-btn-width-1280);
+    --header-btn-height: var(--header-btn-height-1280);
   }
   h3 {
     font-size: var(--text-base-size);
@@ -298,23 +391,40 @@ h6 {
     font-size: calc(var(--base-unit) * 0.4);
   }
   .application {
-    padding: 16px 120px 16px;
+    padding: 16px 120px;
   }
 }
 @media (max-width: 1280px) {
   :root {
+    --input-width: var(--input-width-1024);
+    --input-height: var(--input-height-1024);
     --card-width: var(--card-width-1024);
     --card-height: var(--card-height-1024);
+    --card-width-expanded: var(--card-width-expanded-1024);
+    --card-height-expanded: var(--card-height-expanded-1024);
     --image-width: var(--image-width-1024);
     --image-height: var(--image-height-1024);
+    --image-width-expanded: var(--image-width-expanded-1024);
+    --image-height-expanded: var(--image-height-expanded-1024);
+    --logo-top-width: var(--logo-width-1024);
+    --logo-top-height: var(--logo-height-1024);
+    --header-btn-width: var(--header-btn-width-1024);
+    --header-btn-height: var(--header-btn-height-1024);
+    --header-btn2-width: var(--header-btn2-width-1024);
+    --header-btn3-width: var(--header-btn3-width-768);
   }
 }
 @media (max-width: 1024px) {
   :root {
     --card-width: var(--card-width-768);
     --card-height: var(--card-height-768);
+    --card-width-expanded: var(--card-width-expanded-1024);
+    --card-height-expanded: var(--card-height-expanded-1024);
+    --image-width-expanded: var(--image-width-expanded-1024);
+    --image-height-expanded: var(--image-height-expanded-1024);
     --image-width: var(--image-width-768);
     --image-height: var(--image-height-768);
+    --logo-top-width: var(--logo-width-320);
   }
   h1 {
     font-weight: 700;
@@ -328,15 +438,25 @@ h6 {
   h6 {
     font-size: var(--text-small);
   }
+  .application {
+    padding: 16px 32px;
+  }
 }
 @media (max-width: 768px) {
   :root {
     --card-width: var(--card-width-320);
     --card-height: var(--card-height-320);
+    --card-width-expanded: var(--card-width-expanded-1024);
+    --card-height-expanded: var(--card-height-expanded-1024);
+    --image-width-expanded: var(--image-width-expanded-1024);
+    --image-height-expanded: var(--image-height-expanded-1024);
+    --logo-bot-width: var(--card-width-expanded-320);
+    --logo-bot-height: var(--logo-height-1920);
     --image-width: var(--image-width-320);
     --image-height: var(--image-height-320);
     --button-width: var(--small-btn-width);
     --button-height: var(--small-btn-height);
+    --header-btn3-width: var(--header-btn-height-1280);
   }
   h1 {
     font-weight: 600;
@@ -357,20 +477,6 @@ h6 {
   }
 }
 
-/*
-@media (max-width: 1649px) {
-  //стили для макета 1280
-}
-@media (max-width: 1280px) {
-  //стили для макета 1024
-}
-@media (max-width: 1024px) {
-  //стили для макета 768
-}
-@media (max-width: 768px) {
-  //стили для макета 320
-}
-*/
 
 
 

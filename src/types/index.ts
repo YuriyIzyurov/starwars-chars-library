@@ -25,3 +25,4 @@ export type AnimationType = 'forward' | 'reverse'
 export type ButtonActionType = 'addToFav' | 'expand' | 'delFromFav'
 export type FavoriteCard = Omit<DummyCard, "is_favorite">
 export type StorageKeyType = 'cards'
+export type SectionType = 'info' | 'extra'

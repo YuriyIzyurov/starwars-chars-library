@@ -47,7 +47,7 @@ import {DirectionType} from "@/types";
 import StyledInput from "@/components/UI/StyledInput.vue";
 import {useCardsStore} from "@/store";
 import { storeToRefs } from 'pinia'
-import {log} from "node:util";
+
 
 
 const modal = ref<InstanceType<typeof MyModalWindow> | null>(null)

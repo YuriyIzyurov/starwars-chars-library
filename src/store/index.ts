@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from "axios";
 import {ActionToggleType, CardType, DummyCard, FavoriteCard, FilmType, StorageKeyType} from "@/types";
-import {computed, onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 
 
 export const useCardsStore = defineStore('CharCard', () => {
@@ -71,7 +71,7 @@ export const useCardsStore = defineStore('CharCard', () => {
         try {
             for(let i=0; i<API_PAGES; i++) {
                 console.log(`start fetch page ${i+1}`)
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}`, {
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}people`, {
                     params: {
                         page: i + 1,
                     }
@@ -97,7 +97,7 @@ export const useCardsStore = defineStore('CharCard', () => {
         }
     }
     async function fetchFilms(key: StorageKeyType) {
-        //этот эндпоинт очень медленный, подпишимся на резолв этого экшена в хоум компоненте,
+        //этот эндпоинт очень медленный, подпишемся на резолв этого экшена в хоум компоненте,
         //как только получим список фильмов, раскидаем их по картокам, которые не успели загрузить себе список фильмов
         const data = JSON.parse(localStorage.getItem(key))
         if(data) {
@@ -108,7 +108,7 @@ export const useCardsStore = defineStore('CharCard', () => {
 
         try {
             console.log('fetch films')
-            const response = await axios.get('https://swapi.dev/api/films')
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}films`)
             filmList.value = response.data.results
 
             return 'FETCH_SUCCESS'

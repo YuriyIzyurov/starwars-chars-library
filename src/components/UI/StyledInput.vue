@@ -49,7 +49,7 @@ defineProps({
     //в макете верхний инпут 312 пикселей, нижний 324. Пусть оба будут 320
     input {
       width: var(--input-width);
-      height: var(--base-unit2);
+      height: var(--input-height);
       font-weight: 300;
     }
   }
@@ -63,5 +63,10 @@ defineProps({
   //в макете отступы от иконкок в верхнем и нижнем инпуте разные, привел более менее к кратным величинам(4,8...24)
   .icon2 {
     left: calc(var(--input-width) - calc(var(--base-unit) / 3) - var(--base-unit));
+  }
+  @media (max-width: 1280px) {
+    .input-inside {
+      top: calc(var(--base-unit) / 4);
+    }
   }
 </style>
