@@ -1,14 +1,22 @@
 <template>
-  <div>
-NEWS
+  <div class="empty-image-wrapper">
+    <img src="../assets/empty.jpg" alt="">
+    <h1>NEWS</h1>
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
-export default defineComponent({})
-</script>
-
-<style scoped>
-
+<style scoped lang="scss">
+.empty-image-wrapper {
+  position: relative;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  h1 {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+  }
+}
 </style>
