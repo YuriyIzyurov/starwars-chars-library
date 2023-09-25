@@ -151,7 +151,7 @@ function startAnimation(element = null, direction) {
     }, index * speed)
   })
 }
-export function useDeterminateScreen(ratio) {
+function useDeterminateScreen(ratio) {
   //можно придумать лучше, но пока на глаз для простоты
   return  ratio > 1.8
       ? ['isTabletVertical', 2.5]
