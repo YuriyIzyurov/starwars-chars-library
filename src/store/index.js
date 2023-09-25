@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from "axios";
 import {computed, ref} from "vue";
+import {ADDED_TO_FAVORITES, DELETED_FROM_FAVORITES, FETCH_SUCCESS, STORAGE_SUCCESS} from "../constants";
 
 
 export const useCardsStore = defineStore('CharCard', () => {
@@ -70,7 +71,7 @@ export const useCardsStore = defineStore('CharCard', () => {
             cards.value = data.cards
             favoriteCards.value = data.favoriteCards
 
-            return 'STORAGE_SUCCESS'
+            return STORAGE_SUCCESS
         }
 
         try {
@@ -95,7 +96,7 @@ export const useCardsStore = defineStore('CharCard', () => {
                     cards.value[i * 10 + j].image = `/characters/${ j < 9 && i===0 ? i : '' }${ i * 10 + j + 1 }.jpg`
                 })
             }
-            return 'FETCH_SUCCESS'
+            return FETCH_SUCCESS
         } catch(e) {
             console.log('не удалось загрузить персонажей', e)
         }
@@ -107,14 +108,14 @@ export const useCardsStore = defineStore('CharCard', () => {
         if(data) {
             filmList.value = data.filmList
 
-            return 'STORAGE_SUCCESS'
+            return STORAGE_SUCCESS
         }
 
         try {
             const response = await axios.get(`${import.meta.env.VITE_BASE_URL}films`)
             filmList.value = response.data.results
 
-            return 'FETCH_SUCCESS'
+            return FETCH_SUCCESS
         } catch(e) {
             console.log('не удалось загрузить фильмы', e)
         }
@@ -147,7 +148,7 @@ export const useCardsStore = defineStore('CharCard', () => {
         } else {
             favoriteCards.value.push({ id, name, image, })
         }
-        return "ADDED_TO_FAVORITES"
+        return ADDED_TO_FAVORITES
     }
     function deleteRandomFavorite() {
         const randomIndex = Math.floor(Math.random() * favoriteCards.value.length)
@@ -157,7 +158,7 @@ export const useCardsStore = defineStore('CharCard', () => {
            return i !== randomIndex
         })
 
-        return "DELETED_FROM_FAVORITES"
+        return DELETED_FROM_FAVORITES
     }
 
 
