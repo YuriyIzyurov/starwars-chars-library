@@ -55,7 +55,7 @@ import {defineProps, ref} from "vue";
 import SVG from "@/components/UI/SVG.vue";
 import Button from "@/components/UI/StyledButton.vue";
 import {useCardsStore} from "@/store";
-import {useDeterminateScreen} from "@/constants";
+
 
 const isExpanded = ref(false)
 const modalBlock = ref(null)
@@ -150,6 +150,19 @@ function startAnimation(element = null, direction) {
       div.classList.add(forward ? 'animate' : 'animate-reverse')
     }, index * speed)
   })
+}
+export function useDeterminateScreen(ratio) {
+  //можно придумать лучше, но пока на глаз для простоты
+  return  ratio > 1.8
+      ? ['isTabletVertical', 2.5]
+      : ratio > 1.65
+          ? ['isMaxScreen', 2]
+          : ratio > 1.5
+              ? ['isTablet', 4]
+              : ratio > 1.1
+                  ? ['isMobile', 2.5]
+                  : ratio > 0.9
+                      ? ['isLargeTablet', 8] : ['isTablet', 5]
 }
 
 function handleClick(type, card) {
