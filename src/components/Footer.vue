@@ -178,6 +178,7 @@ function toggleDropdown(section) {
     .footer-wrapper {
       padding: var(--base-unit);
       gap: var(--base-unit2);
+      margin-top: var(--base-unit);
     }
     .footer-content {
       align-items: flex-start;

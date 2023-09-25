@@ -167,7 +167,7 @@
 //todo: почему-то шрифты не работают, разобраться. Пусть пока везде будет такой шрифт
 @font-face {
   font-family: 'Oxanium';
-  src: local('Oxanium'), url(./assets/fonts/Oxanium-Light.ttf) format('truetype') //300
+  src: local('Oxanium'), url(../assets/fonts/Oxanium-Light.ttf) format('truetype') //300
 }
 /*@font-face {
   font-family: 'Oxanium';
@@ -392,6 +392,7 @@ h6 {
   .application {
     padding: 16px calc(var(--base-unit) * 0.5) 42px;
   }
+
 }
 
 @media (max-width: 1649px) {

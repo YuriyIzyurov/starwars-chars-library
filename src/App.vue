@@ -12,8 +12,7 @@ import Footer from "@/components/Footer.vue"
 </script>
 
 <style lang="scss">
-  @import "style";
-
+  @import "styles/global";
   .element-wrapper {
     width: var(--base-unit);
     height: var(--base-unit);
