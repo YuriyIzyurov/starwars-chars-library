@@ -54,7 +54,7 @@
 import {defineProps, ref} from "vue";
 import SVG from "@/components/UI/SVG.vue";
 import Button from "@/components/UI/StyledButton.vue";
-import {useCardsStore} from "@/store";
+import {useCardsStore} from "@/store/index.js";
 
 const isExpanded = ref(false)
 const modalBlock = ref(null)

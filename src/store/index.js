@@ -119,7 +119,7 @@ export const useCardsStore = defineStore('CharCard', () => {
             console.log('не удалось загрузить фильмы', e)
         }
     }
-    function setFilms(filmsArr: string[], cardId: number) {
+    function setFilms(filmsArr, cardId) {
         //Если списка фильмов еще не существует, значит они не успели загрузиться с сервера
         //Пометим эту карточку как несостоявшуюся и запишем в реф ее id
         //Далее проследим, когда список фильмов появится, пройдемся по несостоявшимся карточкам и дополним их фильмами

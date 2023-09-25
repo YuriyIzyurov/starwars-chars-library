@@ -45,18 +45,17 @@
   </footer>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import SVG from "@/components/UI/SVG.vue";
 import Input from "@/components/UI/StyledInput.vue";
 import {ref} from "vue";
-import {SectionType} from "@/types";
 import { useMediaQuery } from '@vueuse/core'
 
 const toggleInfo = ref(false)
 const toggleExtra = ref(false)
 const isMobile = useMediaQuery('(max-width: 768px)')
 
-function toggleDropdown(section: SectionType) {
+function toggleDropdown(section) {
   if(section==='info') {
     toggleInfo.value = !toggleInfo.value
     toggleExtra.value = false

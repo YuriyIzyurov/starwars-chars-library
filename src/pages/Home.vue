@@ -41,7 +41,7 @@ import CardList from "@/components/CardList.vue"
 import {onMounted, ref, watch} from "vue";
 import SVG from "@/components/UI/SVG.vue";
 import Input from "@/components/UI/StyledInput.vue";
-import {useCardsStore} from "@/store";
+import {useCardsStore} from "@/store/index.js";
 import { storeToRefs } from 'pinia'
 
 

@@ -4,16 +4,16 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Card from "@/components/Card.vue"
-import { defineComponent, PropType } from "vue";
-import {CardType, DummyCard} from "@/types";
+import { defineComponent } from "vue";
+
 
 export default defineComponent({
   components: { Card },
   props: {
     cards: {
-      type: Array as PropType<(CardType|DummyCard)[]>,
+      type: Array,
       required: true
     }
   },
