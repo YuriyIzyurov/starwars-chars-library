@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import axios from "axios";
-import {ActionToggleType, CardType, StorageKeyType} from "@/types";
 import {computed, ref} from "vue";
 
 
@@ -19,11 +18,14 @@ export const useCardsStore = defineStore('CharCard', () => {
     //будут слишком долго, плохо с точки зрения UX. Массив данных небольшой, сразу отобразим скелетон лоадеры, как можно скорее загрузим
     //первую страницу персонажей и в фоне догрузится остальное, постепенно заменяя в думми массиве по индексам на настоящие карточки
     const cards = ref(Array.from({ length: totalCharacters },
-        (_, index) => ({id: index, name: null, image: null, is_favorite: null})))
+        (_, index) => ({id: index, name: null, image: null, is_favorite: false})))
 
     const totalPages = computed(() => Math.ceil(totalCharacters/cardsPerPage))
-    const searchedCards = computed(() =>
-        [...cards.value].filter(card => card.name?.toLowerCase().includes(searchQuery.value?.toLowerCase())))
+    const searchedCards = computed(() => {
+        if(!cards.value[cards.value.length - 1].name)
+            return cards.value
+        return [...cards.value].filter(card => card.name?.toLowerCase().includes(searchQuery.value?.toLowerCase()))
+    })
     const currentPageCards = computed(() => {
         const startIndex = (page.value - 1) * cardsPerPage;
         const endIndex = startIndex + cardsPerPage;
@@ -62,7 +64,7 @@ export const useCardsStore = defineStore('CharCard', () => {
     })
     const favoritesCount = computed(() => favoriteCards.value.length)
 
-    async function fetchCharacters(key: StorageKeyType) {
+    async function fetchCharacters(key) {
         const data = JSON.parse(localStorage.getItem(key))
         if(data) {
             cards.value = data.cards
@@ -98,7 +100,7 @@ export const useCardsStore = defineStore('CharCard', () => {
             console.log('не удалось загрузить персонажей', e)
         }
     }
-    async function fetchFilms(key: StorageKeyType) {
+    async function fetchFilms(key) {
         //этот эндпоинт очень медленный, подпишемся на резолв этого экшена в хоум компоненте,
         //как только получим список фильмов, раскидаем их по картокам, которые не успели загрузить себе список фильмов
         const data = JSON.parse(localStorage.getItem(key))
@@ -138,7 +140,7 @@ export const useCardsStore = defineStore('CharCard', () => {
         }
         return filmsString.replace(/, $/, ".")
     }
-    function toggleFavorites(card: CardType, action: ActionToggleType) {
+    function toggleFavorites(card, action) {
         const { id, name, image } = card
         if(action==="delete") {
             favoriteCards.value = favoriteCards.value.filter(card => card.id !== id)

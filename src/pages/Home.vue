@@ -36,11 +36,10 @@
   </main>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import CardList from "@/components/CardList.vue"
 import {onMounted, ref, watch} from "vue";
 import SVG from "@/components/UI/SVG.vue";
-import {DirectionType} from "@/types";
 import Input from "@/components/UI/StyledInput.vue";
 import {useCardsStore} from "@/store";
 import { storeToRefs } from 'pinia'
@@ -52,13 +51,13 @@ const store = useCardsStore()
 const {  failedCards, cards, page, cardIsExpanded, searchQuery } = storeToRefs(store)
 
 
-const setPage = (number: number) => {
+const setPage = (number) => {
   if(isNaN(number))
     return
   page.value = number
   cardIsExpanded.value = false
 }
-const setPageByArrow = (currPage: number, direction: DirectionType) => {
+const setPageByArrow = (currPage, direction) => {
   if(direction==='prev' && currPage > 1) {
     setPage(currPage - 1)
   } else if(direction==='next' && currPage < store.totalPages) {
@@ -85,7 +84,6 @@ store.$onAction(({ name, after, store }) => {
       const filmList = store.$state.filmList
 
       localStorage.setItem('cards', JSON.stringify({ cards, favoriteCards, filmList }))
-      return
     }
   })
 })

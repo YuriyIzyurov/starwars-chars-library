@@ -20,7 +20,7 @@
         </li>
         <li class="border border-big cursor-pointer" style="position: relative" @click="toggleFavorites">
           <SVG name="favorites"/>
-          <span class="fav-notification element-wrapper border-small bg-purple-light"><h5>{{ store.favoritesCount }}</h5></span>
+          <span class="fav-notification element-wrapper border-small bg-purple-light"><h5>{{ favoritesCount }}</h5></span>
         </li>
       </ul>
       <ul :class="['nav-list-mobile','border','border-big', isMenuOpen && 'nav-list-mobile__isShow'] ">
@@ -32,7 +32,7 @@
         </li>
       </ul>
     </nav>
-    <aside :class="['fav-modal', 'border border-big', 'bg-grey-primary', isFavoritesOpen && store.favoritesCount > 0 && 'fav-modal__isOpen']">
+    <aside :class="['fav-modal', 'border border-big', 'bg-grey-primary', isFavoritesOpen && favoritesCount > 0 && 'fav-modal__isOpen']">
       <SVG class="close-icon cursor-pointer" name="exit" @click="closeFavs"/>
       <MiniCard v-for="card in store.favoriteCards" :card="card"/>
       <div class="fav-btn-wrapper">
@@ -51,10 +51,14 @@ import SVG from "@/components/UI/SVG.vue";
 import MiniCard from "@/components/MiniCard.vue";
 import {routesData} from "@/constants";
 import {useCardsStore} from "@/store";
-import {ref} from "vue";
+import Button from "@/components/UI/StyledButton.vue"
+import {ref,watch} from "vue";
+import {storeToRefs} from "pinia";
+
 
 
 const store = useCardsStore()
+const { favoritesCount } = storeToRefs(store)
 const isMenuOpen = ref(false)
 const isFavoritesOpen = ref(false)
 
@@ -68,6 +72,11 @@ function toggleFavorites() {
 function closeFavs() {
   isFavoritesOpen.value = false
 }
+watch(favoritesCount, (newCount) => {
+  if(!newCount) {
+    isFavoritesOpen.value = false
+  }
+})
 
 
 </script>

@@ -7,13 +7,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {FavoriteCard} from "@/types";
-import {defineProps, PropType} from "vue";
+<script setup>
+import {defineProps} from "vue";
 
 defineProps({
   card: {
-    type: Object as PropType<FavoriteCard>,
+    type: Object,
     required: true
   }
 })

@@ -50,9 +50,8 @@
 </template>
 
 
-<script setup lang="ts">
-import {defineProps, PropType, ref} from "vue";
-import {AnimationType, ButtonActionType, CardType, DeviceType} from "@/types";
+<script setup>
+import {defineProps, ref} from "vue";
 import SVG from "@/components/UI/SVG.vue";
 import Button from "@/components/UI/StyledButton.vue";
 import {useCardsStore} from "@/store";
@@ -129,7 +128,7 @@ const calculatePosition = () => {
 }
 
 
-function startAnimation(element: HTMLDivElement | null = null, direction: AnimationType) {
+function startAnimation(element = null, direction) {
   const childDivs = cardsInfoBlock.value.querySelectorAll('div')
   let button
   const forward = direction==='forward'
@@ -152,7 +151,7 @@ function startAnimation(element: HTMLDivElement | null = null, direction: Animat
   })
 }
 
-function handleClick(type: ButtonActionType, card: CardType) {
+function handleClick(type, card) {
   if(type==='expand') {
     if(store.cardIsExpanded) return
     calculatePosition()
@@ -181,7 +180,7 @@ function closeExpandedCard() {
   isExpanded.value = false
   store.cardIsExpanded = false
 }
-function useDeterminateScreen(ratio: number): [DeviceType,number] {
+function useDeterminateScreen(ratio) {
   //можно придумать лучше, но пока на глаз для простоты
   return  ratio > 1.8
       ? ['isTabletVertical', 2.5]
@@ -197,7 +196,7 @@ function useDeterminateScreen(ratio: number): [DeviceType,number] {
 
 defineProps({
   card: {
-    type: Object as PropType<CardType>,
+    type: Object,
     required: true
   }
 })

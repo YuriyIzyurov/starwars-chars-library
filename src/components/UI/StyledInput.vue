@@ -16,15 +16,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {defineComponent, defineProps} from "vue";
+<script setup>
+import {defineProps} from "vue";
 import SVG from "@/components/UI/SVG.vue";
-import {InputType} from '@/types';
+
 
 
 defineProps({
   name: {
-    type: String as () => InputType,
+    type: String,
     default: false
   },
   modelValue: {

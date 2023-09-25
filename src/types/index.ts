@@ -1,3 +1,4 @@
+//пока уберем тайпскрипт с некоторых компонентов, на который версел ругается
 export interface DummyCard {
     id: number
     name: null | string
