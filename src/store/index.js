@@ -65,6 +65,9 @@ export const useCardsStore = defineStore('CharCard', () => {
     })
     const favoritesCount = computed(() => favoriteCards.value.length)
 
+
+
+
     async function fetchCharacters(key) {
         const data = JSON.parse(localStorage.getItem(key))
         if(data) {
@@ -76,6 +79,7 @@ export const useCardsStore = defineStore('CharCard', () => {
 
         try {
             for(let i=0; i<API_PAGES; i++) {
+                console.log(`fetch page ${i+1}`)
                 const response = await axios.get(`${import.meta.env.VITE_BASE_URL}people`, {
                     params: {
                         page: i + 1,
@@ -102,15 +106,15 @@ export const useCardsStore = defineStore('CharCard', () => {
         }
     }
     async function fetchFilms(key) {
+
         //этот эндпоинт очень медленный, подпишемся на резолв этого экшена в хоум компоненте,
         //как только получим список фильмов, раскидаем их по картокам, которые не успели загрузить себе список фильмов
         const data = JSON.parse(localStorage.getItem(key))
-        if(data) {
-            filmList.value = data.filmList
 
+        if(data?.filmList) {
+            filmList.value = data.filmList
             return STORAGE_SUCCESS
         }
-
         try {
             const response = await axios.get(`${import.meta.env.VITE_BASE_URL}films`)
             filmList.value = response.data.results
@@ -160,13 +164,19 @@ export const useCardsStore = defineStore('CharCard', () => {
 
         return DELETED_FROM_FAVORITES
     }
-
+    function fillCardsByFilms() {
+        for(const cardId of failedCards.value) {
+            const filmArr = cards.value[cardId].films
+            cards.value[cardId].films = setFilms(filmArr, cardId)
+        }
+        failedCards.value = []
+    }
 
     return {
         currentPageCards, cards, totalPages, searchQuery,
         page, pageArray, filmList, failedCards,
         favoriteCards, favoritesCount, cardIsExpanded,
-        fetchCharacters, fetchFilms, setFilms, toggleFavorites, deleteRandomFavorite
+        fetchCharacters, fetchFilms, fillCardsByFilms, toggleFavorites, deleteRandomFavorite
     }
 })
 
