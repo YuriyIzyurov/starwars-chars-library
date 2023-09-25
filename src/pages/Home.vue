@@ -119,7 +119,8 @@ onMounted(() => {
 <style scoped lang="scss">
   .main-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
     gap: var(--base-unit);
     margin:80px 0 124px 0;
   }

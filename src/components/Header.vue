@@ -207,6 +207,7 @@ watch(favoritesCount, (newCount) => {
     .fav-notification {
       width: calc(var(--base-unit) * 0.6667);
       height: calc(var(--base-unit) * 0.6667);
+      padding-top: 0;
     }
   }
 @media (max-width: 768px) {
