@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from "axios";
-import {ActionToggleType, CardType, DummyCard, FavoriteCard, FilmType, StorageKeyType} from "@/types";
+import {ActionToggleType, CardType, StorageKeyType} from "@/types";
 import {computed, ref} from "vue";
 
 
@@ -9,22 +9,25 @@ export const useCardsStore = defineStore('CharCard', () => {
     const cardsPerPage = 4
     const API_PAGES = 9
     const visiblePages = 5
-    const page = ref<InstanceType<number>>(1)
-    const filmList = ref<InstanceType<FilmType[]|null>>(null)
-    const failedCards = ref<InstanceType<number[]|[]>>([])
-    const favoriteCards = ref<InstanceType<FavoriteCard[]|[]>>([])
+    const page = ref(1)
+    const filmList = ref(null)
+    const failedCards = ref([])
+    const favoriteCards = ref([])
+    const cardIsExpanded = ref(false)
+    const searchQuery = ref('')
     //заполним массив думми карточками, так как апи медленный. По каждому клику на страницу,а тем более поиску фетчиться данные
     //будут слишком долго, плохо с точки зрения UX. Массив данных небольшой, сразу отобразим скелетон лоадеры, как можно скорее загрузим
     //первую страницу персонажей и в фоне догрузится остальное, постепенно заменяя в думми массиве по индексам на настоящие карточки
-    const cards = ref<InstanceType<(CardType|DummyCard)[]>>
-    (Array.from({ length: totalCharacters }, (_, index) => ({id: index, name: null, image: null, is_favorite: null})))
-
+    const cards = ref(Array.from({ length: totalCharacters },
+        (_, index) => ({id: index, name: null, image: null, is_favorite: null})))
 
     const totalPages = computed(() => Math.ceil(totalCharacters/cardsPerPage))
+    const searchedCards = computed(() =>
+        [...cards.value].filter(card => card.name?.toLowerCase().includes(searchQuery.value?.toLowerCase())))
     const currentPageCards = computed(() => {
         const startIndex = (page.value - 1) * cardsPerPage;
         const endIndex = startIndex + cardsPerPage;
-        return cards.value.slice(startIndex, endIndex);
+        return searchedCards.value.slice(startIndex, endIndex);
     })
     //Количество элементов(страниц) будет 7, вместо 8 на макете.
     //Потому что с точки зрения дизайна симметрия относительно центрального элемента выглядит красивее,
@@ -70,7 +73,6 @@ export const useCardsStore = defineStore('CharCard', () => {
 
         try {
             for(let i=0; i<API_PAGES; i++) {
-                console.log(`start fetch page ${i+1}`)
                 const response = await axios.get(`${import.meta.env.VITE_BASE_URL}people`, {
                     params: {
                         page: i + 1,
@@ -107,7 +109,6 @@ export const useCardsStore = defineStore('CharCard', () => {
         }
 
         try {
-            console.log('fetch films')
             const response = await axios.get(`${import.meta.env.VITE_BASE_URL}films`)
             filmList.value = response.data.results
 
@@ -146,13 +147,23 @@ export const useCardsStore = defineStore('CharCard', () => {
         }
         return "ADDED_TO_FAVORITES"
     }
+    function deleteRandomFavorite() {
+        const randomIndex = Math.floor(Math.random() * favoriteCards.value.length)
+        favoriteCards.value = [...favoriteCards.value].filter((card, i) => {
+           if(i===randomIndex)
+               cards.value[card.id].is_favorite = false
+           return i !== randomIndex
+        })
+
+        return "DELETED_FROM_FAVORITES"
+    }
 
 
     return {
-        currentPageCards, cards, totalPages,
+        currentPageCards, cards, totalPages, searchQuery,
         page, pageArray, filmList, failedCards,
-        favoriteCards, favoritesCount,
-        fetchCharacters, fetchFilms, setFilms, toggleFavorites
+        favoriteCards, favoritesCount, cardIsExpanded,
+        fetchCharacters, fetchFilms, setFilms, toggleFavorites, deleteRandomFavorite
     }
 })
 

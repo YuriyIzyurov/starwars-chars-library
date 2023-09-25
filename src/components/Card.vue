@@ -8,9 +8,9 @@
         <img v-if="card.image" class="card-image" :src="card.image" alt="Card Image">
         <div v-else class="skeleton"></div>
       </div>
-      <div class="card__content-right">
+      <div class="card__content-info">
         <h2 v-if="card.name">{{ card.name }}</h2>
-        <h2 v-else class="skeleton" style="height: auto">Loading...</h2>
+        <h2 v-else class="skeleton border-small">Loading...</h2>
         <div :class="['card__hidden-info']" ref="cardsInfoBlock">
           <div>
             <h4>Birth year:</h4><h4>{{ card.birth_year }}</h4>
@@ -33,17 +33,17 @@
           <div>
             <h4>Films:</h4>
             <h4 v-if="card.films && typeof card.films==='string'">{{ card.films }}</h4>
-            <h4 v-else class="skeleton" style="height: auto">Loading...</h4>
+            <h4 v-else class="skeleton border-small">Loading...</h4>
           </div>
         </div>
-        <StyledButton
+        <Button
             :class="['animated-button', isExpanded && 'move-down']"
             @click="handleClick(isExpanded ? card.is_favorite ? 'delFromFav' : 'addToFav' : 'expand', card)"
             :disabled="!card.name"
             :icon="isExpanded && SVG"
         >
           {{ isExpanded ? card.is_favorite ? 'Unfavorite' : 'Add to favorite' : 'Learn more' }}
-        </StyledButton>
+        </Button>
       </div>
     </div>
   </div>
@@ -51,23 +51,29 @@
 
 
 <script setup lang="ts">
-import {defineComponent, defineProps, PropType, ref} from "vue";
-import {AnimationType, ButtonActionType, CardType, DummyCard} from "@/types";
-import StyledButton from "@/components/UI/StyledButton.vue";
+import {defineProps, PropType, ref} from "vue";
+import {AnimationType, ButtonActionType, CardType, DeviceType} from "@/types";
 import SVG from "@/components/UI/SVG.vue";
+import Button from "@/components/UI/StyledButton.vue";
 import {useCardsStore} from "@/store";
 
-const isExpanded = ref<InstanceType<boolean>>(false)
-const modalBlock = ref<InstanceType<HTMLDivElement>>(null)
-const cardsInfoBlock = ref<InstanceType<HTMLDivElement>>(null)
+const isExpanded = ref(false)
+const modalBlock = ref(null)
+const cardsInfoBlock = ref(null)
 
 const store = useCardsStore()
 const calculatePosition = () => {
+  //тут будет алгоритм нахождения позиции, куда карточка будет перемещаться, должна попасть в центр вьюпорта
+  //также будут пересчитаны модификаторы скалирования  в соответствии с шириной экрана,
+  //так как родительский и дочерние элементы скалируются по разным модификаторам
+  //можно сделать лучше, но не хочу тратить на это много времени
   const card = modalBlock.value
   const cardRect = card.getBoundingClientRect()
   const parent = card.parentElement
   const parentRect = parent.getBoundingClientRect()
+  //для ускорения и простоты получим доступ к элементам таким образом
   const imgWrapper = card.querySelector('.image-wrapper')
+  const infoWrapper = card.querySelector('.card__content-info')
   card.style.zIndex = 1
 
   const parentWidth = parent.offsetWidth
@@ -76,8 +82,7 @@ const calculatePosition = () => {
   const parentCenterY = window.innerHeight / 2
 
   const blockWidth = card.offsetWidth
-  const translateX = (parentWidth - blockWidth) / 2
-  const translateY = parentCenterY - parentRect.top - card.offsetTop + card.offsetHeight / 2
+
 
   const widthValuesCard = getComputedStyle(card).getPropertyValue('--scaleX-card').match(/calc\(([\d.]+)px\/([\d.]+)px\)/)
   const heightValuesCard = getComputedStyle(card).getPropertyValue('--scaleY-card').match(/calc\(([\d.]+)px\/([\d.]+)px\)/)
@@ -89,13 +94,36 @@ const calculatePosition = () => {
   const scaleX_img = widthValuesImg[1]/widthValuesImg[2]
   const scaleY_img = heightValuesImg[1]/heightValuesImg[2]
 
-  //таким образом мы обратно скалируем чилд элемент и применяем к нему свой модификатор скалирования
-  imgWrapper.style.transform = `scale(${1/scaleX_card*scaleX_img}, ${1/scaleY_card*scaleY_img})`
+  const [screen, divisionRatio] = useDeterminateScreen(scaleY_card)
+
+  const translateX = (parentWidth - blockWidth) / 2
+  const translateY = parentCenterY - parentRect.top - card.offsetTop + card.offsetHeight / divisionRatio
+
+
+ //захардкодим величины X,Y смещения на глаз для ускореня разработки, а также модификатор 1.6 для текста под любой размер экрана
+  if(screen==='isLargeTablet') {
+    imgWrapper.style.transform = `translate(-80px, 0) scale(${1/scaleX_card * scaleX_img}, ${1/scaleY_card * scaleY_img})`
+    infoWrapper.style.transform = `translate(150px, -350px) scale(${1/scaleX_card * 1.6}, ${1/scaleY_card * 1.6})`
+    infoWrapper.style.gap = 0
+  }
+  if(screen==='isTablet') {
+    imgWrapper.style.transform = `translate(-95px, -30px) scale(${1/scaleX_card * scaleX_img}, ${1/scaleY_card * scaleY_img})`
+    infoWrapper.style.transform = `translate(-40px, -128px) scale(${1/scaleX_card * 1.6}, ${1/scaleY_card * 1.6})`
+  }
+  if(screen==='isTabletVertical') {
+    imgWrapper.style.transform = `translate(3px, -17px) scale(${1/scaleX_card * scaleX_img}, ${1/scaleY_card * scaleY_img})`
+    infoWrapper.style.transform = `translate(-40px, -97px) scale(${1/scaleX_card * 1.6}, ${1/scaleY_card * 1.6})`
+  }
+
+  if(screen==='isMobile') {
+    imgWrapper.style.transform = `translate(0px, -60px) scale(${1/scaleX_card * scaleX_img}, ${1/scaleY_card * scaleY_img})`
+    infoWrapper.style.transform = `translate(11px, -128px) scale(${1/scaleX_card * 1.6}, ${1/scaleY_card * 1.6})`
+  }
 
   if (cardCenterX > parentCenterX) {
-    card.style.transform = `translate(-${translateX}px, ${translateY}px) scale(${scaleX_card}, ${scaleY_card})`
+    card.style.transform = `translate(-${window.innerWidth > 645 ? translateX : 0}px, ${translateY}px) scale(${scaleX_card}, ${scaleY_card})`
   } else {
-    card.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX_card}, ${scaleY_card})`
+    card.style.transform = `translate(${window.innerWidth > 645 ? translateX : 0}px, ${translateY}px) scale(${scaleX_card}, ${scaleY_card})`
   }
 
 }
@@ -126,9 +154,11 @@ function startAnimation(element: HTMLDivElement | null = null, direction: Animat
 
 function handleClick(type: ButtonActionType, card: CardType) {
   if(type==='expand') {
+    if(store.cardIsExpanded) return
     calculatePosition()
     startAnimation(null, 'forward')
     isExpanded.value = true
+    store.cardIsExpanded = true
 
   } else if(type==='addToFav'){
     //порядок обязателен, так как после выполнения экшена addToFavorites, будет загрузка в localStorage
@@ -141,16 +171,33 @@ function handleClick(type: ButtonActionType, card: CardType) {
   }
 }
 function closeExpandedCard() {
+  //todo: по-хорошему инкапсулировать,переделать алгоритм и вывести в отдельный хук, но нет времени и пусть будет вот так по-уродски
   modalBlock.value.style.transform = 'none'
   modalBlock.value.querySelector('.image-wrapper').style.transform = 'none'
+  const cardContent = modalBlock.value.querySelector('.card__content-info')
+  cardContent.style.transform = 'none'
+  cardContent.style.gap = '24px'
   startAnimation(modalBlock.value, 'reverse')
   isExpanded.value = false
+  store.cardIsExpanded = false
 }
-
+function useDeterminateScreen(ratio: number): [DeviceType,number] {
+  //можно придумать лучше, но пока на глаз для простоты
+  return  ratio > 1.8
+      ? ['isTabletVertical', 2.5]
+      : ratio > 1.65
+          ? ['isMaxScreen', 2]
+          : ratio > 1.5
+              ? ['isTablet', 4]
+              : ratio > 1.1
+                  ? ['isMobile', 2.5]
+                  : ratio > 0.9
+                      ? ['isLargeTablet', 8] : ['isTablet', 5]
+}
 
 defineProps({
   card: {
-    type: Object as PropType<CardType|DummyCard>,
+    type: Object as PropType<CardType>,
     required: true
   }
 })
@@ -160,7 +207,8 @@ defineProps({
   .skeleton {
     width: 100%;
     height: 100%;
-    background-color: #c0d3d3;
+    padding: 0 10px;
+    background-color: #333b3b;
     animation: pulse-bg 1s infinite;
   }
   .cards-wrapper {
@@ -182,12 +230,14 @@ defineProps({
       bottom: 47.5px;
       gap: 32px;
 
-      &-right {
+      &-info {
         position: relative;
         display: flex;
         flex-direction: column;
         gap: 32px;
         padding-top: 100px;
+        transition: transform 0.3s ease-in-out;
+        will-change: transform;
       }
      }
     &__hidden-info {
@@ -211,6 +261,7 @@ defineProps({
   }
   .close-button {
     position: absolute;
+    z-index: 10;
     top: calc(var(--base-unit2) * 0.5);
     right: calc(var(--base-unit2) * 0.625);
   }
@@ -248,35 +299,70 @@ defineProps({
   }
 
   @media (max-width: 1649px) {
-    //стили для макета 1280
     .cards-wrapper {
       gap: 108px 20px;
     }
     .card__content {
       flex-direction: column;
       gap: 0;
-      &-right {
+
+      &-info {
         padding-top: var(--base-unit2);
       }
     }
+    .card__hidden-info {
+      top: 50px;
+      min-width: 300px;
+    }
+    .close-button {
+      transform: scale(0.8, 1.3);
+    }
   }
   @media (max-width: 1280px) {
-    //стили для макета 1024
     .card__content {
       left: 69px;
     }
+    .close-button {
+      transform: scale(1, 1);
+    }
+    .move-down {
+      transform: translate(-45px, 165px) scale(0.625);
+    }
   }
   @media (max-width: 1024px) {
-    //стили для макета 768
+    .card__hidden-info {
+      top: 50px;
+      min-width: 270px;
+    }
+    .move-down {
+      transform: translate(-41px, 175px) scale(0.625);
+    }
   }
   @media (max-width: 768px) {
-    //стили для макета 320
     .cards-wrapper {
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
     }
     .card__content {
       left: 59px;
+    }
+    .card__hidden-info {
+      gap: 0;
+      top: 28px;
+      min-width: 170px;
+    }
+    .card__hidden-info div:not(:last-child) h4:first-child {
+      min-width: 60px;
+    }
+    .card__hidden-info div:last-child h4:first-child {
+      min-width: 35px;
+    }
+    .move-down {
+      transform: translate(-7px, 117px) scale(0.66, 0.625);
+    }
+    .close-button {
+      transform: translate(6px, -10px) scale(1.2, 1);
     }
   }
 </style>

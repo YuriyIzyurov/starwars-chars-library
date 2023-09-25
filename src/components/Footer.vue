@@ -8,10 +8,12 @@
         <section>
           <div class="dropdown-wrapper">
             <h3>Info</h3>
-            <SVG :class="['dropdown-icon','cursor-pointer', toggleInfo && 'spread-dropdown']" name="arrow-left" @click="toggleDropdown('info')"/>
+            <SVG v-if="isMobile"
+                 :class="['dropdown-icon','cursor-pointer', toggleInfo && 'spread-dropdown']"
+                 name="arrow-left" @click="toggleDropdown('info')"/>
           </div>
           <nav>
-            <ul v-if="toggleInfo">
+            <ul v-if="toggleInfo || !isMobile">
               <li><h6>About us</h6></li>
               <li><h6>Terms & Conditions</h6></li>
               <li><h6>Social Media</h6></li>
@@ -21,10 +23,12 @@
         <section>
           <div class="dropdown-wrapper">
             <h3>Extra</h3>
-            <SVG :class="['dropdown-icon','cursor-pointer', toggleExtra && 'spread-dropdown']" name="arrow-left" @click="toggleDropdown('extra')"/>
+            <SVG v-if="isMobile"
+                 :class="['dropdown-icon','cursor-pointer', toggleExtra && 'spread-dropdown']"
+                 name="arrow-left" @click="toggleDropdown('extra')"/>
           </div>
           <nav>
-            <ul v-if="toggleExtra">
+            <ul v-if="toggleExtra || !isMobile">
               <li><h6>Games</h6></li>
               <li><h6>Movies</h6></li>
               <li><h6>Fandom</h6></li>
@@ -35,7 +39,7 @@
       <section class="footer-subscribe">
         <h3>Subscribe for news</h3>
         <h6>Get the latest news from StarWars world</h6>
-        <StyledInput name="email"/>
+        <Input name="email"/>
       </section>
     </div>
   </footer>
@@ -43,12 +47,14 @@
 
 <script setup lang="ts">
 import SVG from "@/components/UI/SVG.vue";
-import StyledInput from "@/components/UI/StyledInput.vue";
+import Input from "@/components/UI/StyledInput.vue";
 import {ref} from "vue";
 import {SectionType} from "@/types";
+import { useMediaQuery } from '@vueuse/core'
 
 const toggleInfo = ref(false)
 const toggleExtra = ref(false)
+const isMobile = useMediaQuery('(max-width: 768px)')
 
 function toggleDropdown(section: SectionType) {
   if(section==='info') {
@@ -83,7 +89,6 @@ function toggleDropdown(section: SectionType) {
     }
     &__main {
       display: flex;
-      flex-direction: column;
       min-height: 175px;
       gap: 24px;
     }
@@ -94,6 +99,10 @@ function toggleDropdown(section: SectionType) {
       display: flex;
       flex-direction: column;
       gap: calc(var(--base-unit) * (16 / 24));
+
+      li {
+        cursor: pointer;
+      }
     }
   }
   .footer-subscribe {
@@ -173,8 +182,12 @@ function toggleDropdown(section: SectionType) {
     }
     .footer-content {
       align-items: flex-start;
-      min-width: var(--card-width-expanded-320);
+      min-width: var(--logo-bot-width-768);
       gap: var(--base-unit);
+
+      &__main {
+        flex-direction: column;
+      }
     }
     .footer-subscribe {
       margin-left: 0;

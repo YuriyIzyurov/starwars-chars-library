@@ -26,3 +26,4 @@ export type ButtonActionType = 'addToFav' | 'expand' | 'delFromFav'
 export type FavoriteCard = Omit<DummyCard, "is_favorite">
 export type StorageKeyType = 'cards'
 export type SectionType = 'info' | 'extra'
+export type DeviceType = 'isTabletVertical' | 'isMaxScreen' | 'isTablet' | 'isLargeTablet' | 'isMobile'

@@ -61,7 +61,8 @@
 
   --card-width-320: 288px;
   --card-height-320: 359px;
-  --card-width-expanded-320: 240px;
+  //сделаем чуть шире, чем на макете, чтоб лучше текст помещался и читался
+  --card-width-expanded-320: 270px;
   --card-height-expanded-320: 437px;
 
   //======RESPONSIVE IMAGE SIZES=======
@@ -102,6 +103,7 @@
   --logo-width-1024: 120px;
   --logo-height-1024: 40px;
 
+  --logo-width-768: 240px;
   --logo-width-320: 96px;
 
   --logo-purple: linear-gradient(to top, #6A25A4, #9736E9);
@@ -162,16 +164,36 @@
   padding: 0;
   box-sizing: border-box;
 }
-//todo: почему-то шрифты не все работают, разобраться
+//todo: почему-то шрифты не работают, разобраться. Пусть пока везде будет такой шрифт
 @font-face {
   font-family: 'Oxanium';
-  src:
-     local('Oxanium'), url(./assets/fonts/Oxanium-Medium.ttf) format('truetype'), //500
-     url(./assets/fonts/Oxanium-Light.ttf) format('truetype'), //300
-     url(./assets/fonts/Oxanium-SemiBold.ttf) format('truetype'), //600
-     url(./assets/fonts/Oxanium-Bold.ttf) format('truetype'), //700
-     url(./assets/fonts/Oxanium-ExtraBold.ttf) format('truetype') //800
+  src: local('Oxanium'), url(./assets/fonts/Oxanium-Light.ttf) format('truetype') //300
 }
+/*@font-face {
+  font-family: 'Oxanium';
+  src: local('Oxanium'), url(./assets/fonts/Oxanium-Medium.ttf) format('truetype') //500
+}*/
+
+/*
+@font-face {
+  font-family: 'Oxanium';
+  src: local('Oxanium'), url(./assets/fonts/Oxanium-SemiBold.ttf) format('truetype') //600
+}
+@font-face {
+  font-family: 'Oxanium';
+  src: local('Oxanium'), url(./assets/fonts/Oxanium-Bold.ttf) format('truetype') //700
+}
+@font-face {
+  font-family: 'Oxanium';
+  src: local('Oxanium'), url(./assets/fonts/Oxanium-ExtraBold.ttf) format('truetype') //800
+}
+
+*/
+
+
+
+
+
 
 body {
   font-size: var(--text-base-size);
@@ -195,8 +217,13 @@ button, input {
   color: inherit;
   font: inherit;
   outline: none;
-  cursor: pointer;
   letter-spacing: var(--letter-space-small);
+}
+button {
+  cursor: pointer;
+}
+input {
+  cursor: auto;
 }
 
 h1 {
@@ -296,13 +323,13 @@ h6 {
 
 @keyframes pulse-bg {
   0% {
-    background-color: #ddd;
+    background-color: #9f7bc4;
   }
   50% {
-    background-color: #838186;
+    background-color: #7e4cc7;
   }
   100% {
-    background-color: #ddd;
+    background-color: #9f7bc4;
   }
 }
 @keyframes shiftDown {
@@ -420,10 +447,10 @@ h6 {
     --card-height: var(--card-height-768);
     --card-width-expanded: var(--card-width-expanded-1024);
     --card-height-expanded: var(--card-height-expanded-1024);
-    --image-width-expanded: var(--image-width-expanded-1024);
-    --image-height-expanded: var(--image-height-expanded-1024);
     --image-width: var(--image-width-768);
     --image-height: var(--image-height-768);
+    --image-width-expanded: var(--image-width-expanded-1024);
+    --image-height-expanded: var(--image-height-expanded-1024);
     --logo-top-width: var(--logo-width-320);
   }
   h1 {
@@ -446,14 +473,14 @@ h6 {
   :root {
     --card-width: var(--card-width-320);
     --card-height: var(--card-height-320);
-    --card-width-expanded: var(--card-width-expanded-1024);
-    --card-height-expanded: var(--card-height-expanded-1024);
-    --image-width-expanded: var(--image-width-expanded-1024);
-    --image-height-expanded: var(--image-height-expanded-1024);
-    --logo-bot-width: var(--card-width-expanded-320);
-    --logo-bot-height: var(--logo-height-1920);
+    --card-width-expanded: var(--card-width-expanded-320);
+    --card-height-expanded: var(--card-height-expanded-320);
     --image-width: var(--image-width-320);
     --image-height: var(--image-height-320);
+    --image-width-expanded: var(--image-width-expanded-320);
+    --image-height-expanded: var(--image-height-expanded-320);
+    --logo-bot-width: var(--logo-width-768);
+    --logo-bot-height: var(--logo-height-1920);
     --button-width: var(--small-btn-width);
     --button-height: var(--small-btn-height);
     --header-btn3-width: var(--header-btn-height-1280);

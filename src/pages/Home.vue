@@ -1,12 +1,12 @@
 <template>
   <main>
     <div>
-      <h6>Home </h6>
+      <h6 class="opacity">Home </h6>
       <h5>/ Characters</h5>
     </div>
     <section class="main-header">
       <h1>Characters</h1>
-      <StyledInput v-model="searchQuery" name="search"/>
+      <Input v-model="searchQuery" name="search"/>
     </section>
     <section>
       <CardList :cards="store.currentPageCards"/>
@@ -17,7 +17,6 @@
         <SVG name="arrow-left"/>
       </div>
       <div v-for="pageNumber in store.pageArray"
-           :key="pageNumber"
            :class="['element-wrapper', 'border-small' , {
              'bg-purple-light': store.page===pageNumber,
              'cursor-pointer': !isNaN(pageNumber),
@@ -39,31 +38,25 @@
 
 <script setup lang="ts">
 import CardList from "@/components/CardList.vue"
-import {onMounted, ref, watch } from "vue";
-import useSearch from "@/hooks/useSearch";
-import MyModalWindow from "@/components/UI/MyModalWindow.vue";
+import {onMounted, ref, watch} from "vue";
 import SVG from "@/components/UI/SVG.vue";
 import {DirectionType} from "@/types";
-import StyledInput from "@/components/UI/StyledInput.vue";
+import Input from "@/components/UI/StyledInput.vue";
 import {useCardsStore} from "@/store";
 import { storeToRefs } from 'pinia'
 
 
 
-const modal = ref<InstanceType<typeof MyModalWindow> | null>(null)
 const hoveredPages = ref({})
-
-//let { currentPageCards, cards, totalPages, page, pageArray, fetchCharacters, fetchFilms } = useCardsStore()
 const store = useCardsStore()
-const { filmList, failedCards, cards, page } = storeToRefs(store)
-
-const { sortedAndSearchedCards, searchQuery } = useSearch(store.cards)
+const {  failedCards, cards, page, cardIsExpanded, searchQuery } = storeToRefs(store)
 
 
 const setPage = (number: number) => {
   if(isNaN(number))
     return
   page.value = number
+  cardIsExpanded.value = false
 }
 const setPageByArrow = (currPage: number, direction: DirectionType) => {
   if(direction==='prev' && currPage > 1) {
@@ -84,7 +77,7 @@ store.$onAction(({ name, after, store }) => {
       failedCards.value = []
       return
     }
-    if(result==="FETCH_SUCCESS" || result==="ADDED_TO_FAVORITES") {
+    if(result==="FETCH_SUCCESS" || result==="ADDED_TO_FAVORITES" || result==='DELETED_FROM_FAVORITES') {
       //если сюда дошли, значит всё загружено и сохраним карточки
       //ну и после каждого обновления избранного обновим localStorage
       const cards = store.$state.cards
@@ -97,9 +90,11 @@ store.$onAction(({ name, after, store }) => {
   })
 })
 
+watch(searchQuery, () => {
+  page.value = 1
+})
 
 onMounted(() => {
-  console.log('PAGE MOUNTED')
   store.fetchCharacters('cards')
   store.fetchFilms('cards')
 })
@@ -138,5 +133,16 @@ onMounted(() => {
   }
   .prevent:hover {
     background-color: initial;
+  }
+
+  @media (max-width: 768px) {
+    .main-footer {
+      gap: calc(var(--base-unit) * 0.2);
+    }
+    .main-header {
+      flex-direction: column;
+      gap: calc(var(--base-unit) * 0.5);
+      margin: 48px 0 96px 0;
+    }
   }
 </style>

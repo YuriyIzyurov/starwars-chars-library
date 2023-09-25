@@ -5,51 +5,71 @@
     </div>
     <nav>
       <ul class="nav-list">
-        <li class="border border-big"><router-link to="/"><h3>Home</h3></router-link></li>
-        <li class="border border-big"><router-link to="/news"><h3>News</h3></router-link></li>
-        <li class="border border-big"><router-link to="/gallery"><h3>Gallery</h3></router-link></li>
-        <li class="border border-big"><router-link to="/forum"><h3>Forum</h3></router-link></li>
+        <li v-for="route in routesData"
+            class="border border-big">
+          <router-link :to="route.path">
+            <h3>{{route.name}}</h3>
+          </router-link>
+        </li>
         <li class="border border-big cursor-pointer" @click="toggleMenu">
           <div class="menu-icon">
             <SVG v-if="!isMenuOpen" name="menu"/>
             <SVG v-else name="exit"/>
           </div>
-          <h3>Menu</h3>
+          <h3 class="menu-text">Menu</h3>
         </li>
-        <li class="border border-big" style="position: relative">
+        <li class="border border-big cursor-pointer" style="position: relative" @click="toggleFavorites">
           <SVG name="favorites"/>
           <span class="fav-notification element-wrapper border-small bg-purple-light"><h5>{{ store.favoritesCount }}</h5></span>
         </li>
       </ul>
       <ul :class="['nav-list-mobile','border','border-big', isMenuOpen && 'nav-list-mobile__isShow'] ">
-        <li><router-link to="/"><h3>Home</h3></router-link></li>
-        <li><router-link to="/news"><h3>News</h3></router-link></li>
-        <li><router-link to="/gallery"><h3>Gallery</h3></router-link></li>
-        <li><router-link to="/forum"><h3>Forum</h3></router-link></li>
+        <li v-for="route in routesData"
+            @click="toggleMenu">
+          <router-link :to="route.path">
+            <h3>{{ route.name }}</h3>
+          </router-link>
+        </li>
       </ul>
     </nav>
+    <aside :class="['fav-modal', 'border border-big', 'bg-grey-primary', isFavoritesOpen && store.favoritesCount > 0 && 'fav-modal__isOpen']">
+      <SVG class="close-icon cursor-pointer" name="exit" @click="closeFavs"/>
+      <MiniCard v-for="card in store.favoriteCards" :card="card"/>
+      <div class="fav-btn-wrapper">
+        <Button
+            @click="store.deleteRandomFavorite"
+        >
+          {{ 'Unfavorite random' }}
+        </Button>
+      </div>
+    </aside>
   </header>
 </template>
 
 <script setup lang="ts">
 import SVG from "@/components/UI/SVG.vue";
+import MiniCard from "@/components/MiniCard.vue";
+import {routesData} from "@/constants";
 import {useCardsStore} from "@/store";
-import {defineProps, ref} from "vue";
+import {ref} from "vue";
+
 
 const store = useCardsStore()
 const isMenuOpen = ref(false)
+const isFavoritesOpen = ref(false)
+
 
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value
 }
+function toggleFavorites() {
+  isFavoritesOpen.value = !isFavoritesOpen.value
+}
+function closeFavs() {
+  isFavoritesOpen.value = false
+}
 
-defineProps({
-  isLargeDesktop: Boolean,
-  isDesktop: Boolean,
-  isMediumTablet: Boolean,
-  isSmallTablet: Boolean,
-  isMobile: Boolean
-})
+
 </script>
 
 <style scoped lang="scss">
@@ -69,6 +89,7 @@ defineProps({
   .nav-list {
     display: flex;
     gap: 3px;
+
     li {
       width: var(--header-btn-width);
       height: var(--header-btn-height);
@@ -76,6 +97,13 @@ defineProps({
       justify-content: center;
       align-items: center;
 
+      a {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       &:nth-last-child(2) {
         display: none;
         width: var(--header-btn3-width);
@@ -104,6 +132,31 @@ defineProps({
       transform: translateX(-233px);
     }
   }
+  .fav-modal {
+    position: fixed;
+    top: -180px;
+    right: -130px;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: var(--base-unit);
+    width: 350px;
+    gap: calc(var(--base-unit) * 0.3);
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.4);
+    border-color: var(--stroke-color-dark);
+    transition: transform 0.2s ease-in-out;
+    transform: translate(0, 0) scale(0);
+
+    &__isOpen {
+      transform: translate(-160px, 245px) scale(1);
+    }
+  }
+  .fav-btn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
   .fav-notification {
     position: absolute;
     top: 3px;
@@ -124,7 +177,12 @@ defineProps({
       height: 100%;
     }
   }
-
+  .close-icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    transform: scale(1.5);
+  }
 
 
   @media (max-width: 1024px) {
@@ -143,11 +201,22 @@ defineProps({
     }
   }
 @media (max-width: 768px) {
-  h3 {
+  .menu-text {
     display: none;
+  }
+  .header-wrapper {
+    margin-bottom: var(--base-unit);
   }
   .nav-list li:nth-last-child(2) {
     gap: 0;
+  }
+  .nav-list-mobile__isShow {
+    transform: translateX(-217px);
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.4);
+  }
+  .fav-modal {
+    width: 280px;
+    right: -140px;
   }
 }
 </style>

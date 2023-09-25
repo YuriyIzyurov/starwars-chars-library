@@ -12,16 +12,18 @@
 </template>
 
 <script setup lang="ts">
-import {defineComponent} from "vue";
+import {defineProps} from "vue";
+
 
 const props = defineProps({
-  icon: [Object, Boolean],
+  icon: Object,
   disabled: Boolean,
   as: {
     type: [String, Object],
     default: "button"
   },
 })
+
 
 </script>
 
