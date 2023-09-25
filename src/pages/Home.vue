@@ -120,6 +120,7 @@ onMounted(() => {
   .main-header {
     display: flex;
     justify-content: space-between;
+    gap: var(--base-unit);
     margin:80px 0 124px 0;
   }
   .main-footer {

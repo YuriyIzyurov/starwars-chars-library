@@ -37,7 +37,7 @@
           </div>
         </div>
         <Button
-            :class="['animated-button', isExpanded && 'move-down']"
+            :class="['animated-button', isExpanded && 'move-down', card.dummy && 'hidden']"
             @click="handleClick(isExpanded ? card.is_favorite ? 'delFromFav' : 'addToFav' : 'expand', card)"
             :disabled="!card.name"
             :icon="isExpanded && SVG"
@@ -217,6 +217,10 @@ defineProps({
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 84px 32px;
+
+    &-empty {
+      display: flex;
+    }
   }
   .card {
     min-width: var(--card-width);

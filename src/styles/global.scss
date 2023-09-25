@@ -192,9 +192,6 @@
 
 
 
-
-
-
 body {
   font-size: var(--text-base-size);
   font-family: var(--font-primary), var(--font-secondary);
@@ -310,6 +307,9 @@ h6 {
 .opacity {
   opacity: 0.4;
 }
+.hidden {
+  display: none !important;
+}
 
 .application {
   max-width: calc(1600px + var(--base-unit));
@@ -419,6 +419,7 @@ h6 {
     font-size: calc(var(--base-unit) * 0.4);
   }
   .application {
+    height: 100%;
     padding: 16px 120px;
   }
 }
