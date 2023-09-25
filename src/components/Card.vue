@@ -32,8 +32,8 @@
           </div>
           <div>
             <h4>Films:</h4>
-            <h4 v-if="card.films && typeof card.films==='string'">{{ card.films }}</h4>
-            <h4 v-else class="skeleton border-small">Loading...</h4>
+            <h4 v-if="!card.films && typeof card.films==='string'">{{ card.films }}</h4>
+            <h4 v-else class="skeleton skeleton-films border-small">Loading...</h4>
           </div>
         </div>
         <Button
@@ -209,6 +209,7 @@ defineProps({
     padding: 0 10px;
     background-color: #333b3b;
     animation: pulse-bg 1s infinite;
+
   }
   .cards-wrapper {
     display: grid;
@@ -362,6 +363,9 @@ defineProps({
     }
     .close-button {
       transform: translate(6px, -10px) scale(1.2, 1);
+    }
+    .skeleton-films {
+      width: 100px;
     }
   }
 </style>
