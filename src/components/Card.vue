@@ -32,7 +32,7 @@
           </div>
           <div>
             <h4>Films:</h4>
-            <h4 v-if="!card.films && typeof card.films==='string'">{{ card.films }}</h4>
+            <h4 v-if="card.films && typeof card.films==='string'">{{ card.films }}</h4>
             <h4 v-else class="skeleton skeleton-films border-small">Loading...</h4>
           </div>
         </div>
